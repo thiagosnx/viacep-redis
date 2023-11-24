@@ -16,7 +16,12 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Service
 public class AddressService {
@@ -53,4 +58,14 @@ public class AddressService {
         return newAddress;
 
     }
+
+    public List<Address> getAdresses() {
+        Set<String> keys = redisTemplate.keys("address:" + "*");
+
+        List<Address> addresses = redisTemplate.opsForValue().multiGet(keys);
+        addresses = addresses.stream().filter(Objects::nonNull).collect(Collectors.toList());
+        return addresses;
+
+    }
+
 }

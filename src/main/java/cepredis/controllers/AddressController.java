@@ -19,6 +19,9 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 
@@ -35,6 +38,11 @@ public class AddressController {
         return new ResponseEntity<>(newAddress, HttpStatus.OK);
     }
 
+    @GetMapping
+    public ResponseEntity<List<Address>> getAddresses(){
+        List<Address> allAddresses = this.addressService.getAdresses();
+        return new ResponseEntity<>(allAddresses, HttpStatus.OK);
+    }
 
 
 
