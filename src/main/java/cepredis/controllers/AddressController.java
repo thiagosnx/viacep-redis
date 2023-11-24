@@ -31,17 +31,17 @@ public class AddressController {
 
 
     @PostMapping
-    public ResponseEntity<Address> createAddress(@RequestBody RequestAddress requestAddress) {
+    public ResponseEntity<Address> createAddress(@RequestBody RequestAddress requestAddress) throws Exception {
         try {
             Address newAddress = addressService.createAddress(requestAddress);
             return new ResponseEntity<>(newAddress, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new Exception("Formato de CEP inválido, utilize 8 dígitos (somente números)");
         }
     }
 
     @GetMapping("/{cep}")
-    public ResponseEntity<Address> getAddress(@PathVariable String cep) {
+    public ResponseEntity<Address> getAddress(@PathVariable String cep) throws Exception {
         try {
             Address address = addressService.getAddress(cep);
             if (address != null) {
@@ -50,7 +50,7 @@ public class AddressController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new Exception("Formato de CEP inválido, utilize 8 dígitos (somente números)");
         }
     }
 

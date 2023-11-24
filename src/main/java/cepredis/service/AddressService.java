@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -26,7 +27,7 @@ public class AddressService {
     @Autowired
     private RedisTemplate<String, Address> redisTemplate;
 
-    public Address createAddress(@RequestBody RequestAddress requestAddress) throws Exception {
+    public Address createAddress(@RequestBody RequestAddress requestAddress) throws IOException {
 
         Address newAddress = new Address(requestAddress);
         URL url = new URL("https://viacep.com.br/ws/"+requestAddress.cep()+"/json/");
@@ -36,6 +37,8 @@ public class AddressService {
 
         String cep = "";
         StringBuilder jsonCep = new StringBuilder();
+
+
 
         while((cep = br.readLine()) != null){
             jsonCep.append(cep);
