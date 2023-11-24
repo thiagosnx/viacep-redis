@@ -21,7 +21,7 @@ public class RedisConfig extends CachingConfigurerSupport {
     @Bean
     public RedisCacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
         RedisCacheConfiguration cacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofMinutes(5)) // Tempo de vida do cache em minutos
+                .entryTtl(Duration.ofMinutes(5))
                 .disableCachingNullValues()
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
 
@@ -34,7 +34,6 @@ public class RedisConfig extends CachingConfigurerSupport {
     public RedisTemplate<String, Address> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<String, Address> template = new RedisTemplate<>();
         template.setConnectionFactory(redisConnectionFactory);
-        // Configurações adicionais, se necessário
         return template;
     }
 }
