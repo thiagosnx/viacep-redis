@@ -7,10 +7,7 @@ import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.io.BufferedReader;
@@ -19,6 +16,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,15 +31,27 @@ public class AddressController {
 
 
     @PostMapping
-    public ResponseEntity<Address> createAddress(@RequestBody RequestAddress requestAddress) throws Exception {
-        Address newAddress = this.addressService.createAddress(requestAddress);
-        return new ResponseEntity<>(newAddress, HttpStatus.OK);
+    public ResponseEntity<Address> createAddress(@RequestBody RequestAddress requestAddress) {
+        try {
+            Address newAddress = addressService.createAddress(requestAddress);
+            return new ResponseEntity<>(newAddress, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    @GetMapping
-    public ResponseEntity<List<Address>> getAddresses(){
-        List<Address> allAddresses = this.addressService.getAdresses();
-        return new ResponseEntity<>(allAddresses, HttpStatus.OK);
+    @GetMapping("/{cep}")
+    public ResponseEntity<Address> getAddress(@PathVariable String cep) {
+        try {
+            Address address = addressService.getAddress(cep);
+            if (address != null) {
+                return new ResponseEntity<>(address, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 
