@@ -1,8 +1,8 @@
 package cepredis.service;
 
 
-import cepredis.models.Address;
-import cepredis.request.RequestAddress;
+import cepredis.domain.Address;
+import cepredis.dtos.RequestAddressDTO;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -15,30 +15,23 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @Service
 public class AddressService {
     @Autowired
     private RedisTemplate<String, Address> redisTemplate;
 
-    public Address createAddress(@RequestBody RequestAddress requestAddress) throws IOException {
+    public Address createAddress(@RequestBody RequestAddressDTO requestAddressDTO) throws IOException {
 
-        Address newAddress = new Address(requestAddress);
-        URL url = new URL("https://viacep.com.br/ws/"+requestAddress.cep()+"/json/");
+        Address newAddress = new Address(requestAddressDTO);
+        URL url = new URL("https://viacep.com.br/ws/"+ requestAddressDTO.cep()+"/json/");
         URLConnection connection = url.openConnection();
         InputStream is = connection.getInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 
         String cep = "";
         StringBuilder jsonCep = new StringBuilder();
-
-
 
         while((cep = br.readLine()) != null){
             jsonCep.append(cep);

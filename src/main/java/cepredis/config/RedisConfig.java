@@ -1,6 +1,6 @@
 package cepredis.config;
 
-import cepredis.models.Address;
+import cepredis.domain.Address;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;

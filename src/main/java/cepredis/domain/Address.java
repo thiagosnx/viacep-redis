@@ -1,9 +1,8 @@
-package cepredis.models;
+package cepredis.domain;
 
 
-import cepredis.request.RequestAddress;
+import cepredis.dtos.RequestAddressDTO;
 import lombok.*;
-import org.springframework.data.annotation.Id;
 
 import java.io.Serializable;
 
@@ -21,7 +20,7 @@ public class Address implements Serializable {
     private String localidade;
     private String uf;
 
-    public Address(RequestAddress requestAddress) {
-        this.cep = requestAddress.cep();
+    public Address(RequestAddressDTO requestAddressDTO) {
+        this.cep = requestAddressDTO.cep();
     }
 }

@@ -1,6 +1,6 @@
 package cepredis.infra;
 
-import cepredis.request.ExceptionDTO;
+import cepredis.dtos.ExceptionDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
